@@ -10,7 +10,8 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 - [Création d'un nouveau projet Symfony 7.3 vide](#création-dun-nouveau-projet-symfony-73-vide)
 - [Installons la version --webapp avec composer](#installons-la-version--webapp-avec-composer)
 - [Création d'un nouveau projet Symfony 7.3 webapp](#création-dun-nouveau-projet-symfony-73-webapp)
-  - Exercice 1
+- [Création d'un controleur de base](#création-dun-controleur-de-base)
+  - [Exercice 1](#exercice-1)
 
 
 ## Cours pour les webdev 2025
@@ -166,6 +167,8 @@ nous pouvons rajouter à notre `v1` les fonctionnalités webapp en utilisant la 
 composer require webapp
 ```
 
+Pour voir la structure de votre projet: [voir ici](https://symfony.com/doc/current/setup/flex.html#understanding-the-project-structure) ou [ici](https://github.com/mikhawa/Symfony-6.4-LTS?tab=readme-ov-file#structure-dun-projet-symfony)
+
 [Retour au menu](#menu)
 
 ## Création d'un nouveau projet Symfony 7.3 webapp
@@ -195,6 +198,26 @@ Vous pouvez accéder à votre application en ouvrant votre navigateur web et en 
 
 ### Création d'un controleur de base
 
+Pour créer un contrôleur de base dans Symfony, vous pouvez utiliser la commande suivante dans votre terminal depuis le répertoire de votre projet :
 
+```bash
+php bin/console make:controller
+```
 
+Cette commande vous invitera à entrer le nom du contrôleur que vous souhaitez créer. Par exemple, si vous souhaitez créer un contrôleur nommé `DefaultController`, vous pouvez simplement taper `DefaultController` lorsque vous y êtes invité.
+Une fois que vous avez entré le nom du contrôleur, Symfony générera automatiquement un fichier de contrôleur dans le répertoire `src/Controller` de votre projet, ainsi qu'un fichier de vue associé dans le répertoire `templates`.
+
+Documentation officielle pour créer un contrôleur : [make:controller](https://symfony.com/doc/current/controller.html#creating-controllers)
+
+[Retour au menu](#menu)
+
+#### Exercice 1
+
+1. Créez un nouveau projet Symfony webapp nommé `exercice1`.
+2. Créez un contrôleur nommé `HomeController`.
+3. Dans ce contrôleur, créez une méthode `index` qui renvoie une réponse simple avec le texte "Bienvenue sur la page d'accueil !", en plus du code de la vue par défaut.
+4. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL `/`.
+5. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/` dans votre navigateur.
+
+[Retour au menu](#menu)
 
