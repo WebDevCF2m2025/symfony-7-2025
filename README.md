@@ -298,12 +298,23 @@ php bin/console debug:router
 
 1. Créez un nouveau projet Symfony webapp nommé `SymfonyExercice2`.
 2. Créez un contrôleur nommé `YamlController` en utilisant la commande `make:controller`.
-3. 
-3. Vous devez définir une route dans le fichier `config/routes.yaml` pour la méthode `index` de ce contrôleur, afin qu'elle soit accessible via l'URL racine `/`.
-3. Dans ce contrôleur, modifiez la méthode `index` pour qu'elle renvoie une réponse dans une variable `title` contenant le texte "Bienvenue sur la page d'accueil !", en plus du code de la vue par défaut.
-4. Dans le fichier de vue `templates/home/index.html.twig`, affichez la variable `title` dans la balise `<h1>` à la place du texte par défaut.
-5. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL racine `/`.
-6. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/` dans votre navigateur.
+3. supprimez ces 3 lignes dans le controleur `YamlController` généré automatiquement (inutile pour cet exercice) :
+   ```php
+   use Symfony\Component\Routing\Annotation\Route; // <-- Importation de l'attribut
+   #[Route('/yaml', name: 'app_yaml')] // <-- Attribut à supprimer
+   return $this->render('yaml/index.html.twig', [
+            'controller_name' => 'YamlController',
+        ]); // <-- A supprimer aussi
+   ```
+4. Dans ce contrôleur, il existe donc une méthode `index` qui devrait ressembler à ceci après suppression des lignes inutiles :
+   ```php
+   public function index(): Response
+   {
+       return new Response('Bienvenue sur la page YAML !');
+   }
+   ```
+5. Dans le fichier `config/routes.yaml`, supprimez le code des annotations (si vous l'avez laissé) et ajoutez une nouvelle route `yaml_index` qui mappe l'URL `/` à la méthode `index` du contrôleur `YamlController`.
+**ICI**
 
 Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\HomeController.php` et `templates\home\index.html.twig` une fois que vous avez terminé l'exercice.
 
