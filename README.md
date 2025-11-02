@@ -12,7 +12,8 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 - [Création d'un nouveau projet Symfony 7.3 webapp](#création-dun-nouveau-projet-symfony-73-webapp)
 - [Création d'un controleur de base](#création-dun-controleur-de-base)
   - [Exercice 1](#exercice-1)
-
+- [Les routes](#les-routes)
+  - [Les annotations de route](#les-annotations-de-route)
 
 ## Cours pour les webdev 2025
 
@@ -233,6 +234,8 @@ Les routes dans Symfony sont définies à l'aide d'`annotations`, de fichiers `Y
 
 [Documentation officielle sur les routes](https://symfony.com/doc/current/routing.html) et exemple en 6.4 LTS : [Les routes](https://github.com/mikhawa/Symfony-6.4-LTS?tab=readme-ov-file#manipulation-des-routes)
 
+[Retour au menu](#menu)
+
 #### Les annotations de route
 Voici un exemple d'annotation de route dans un contrôleur :
 
@@ -251,6 +254,10 @@ class HomeController extends AbstractController
     }
 }
 ``` 
+
+[Retour au menu](#menu)
+
+#### Les routes en YAML
 
 Nous pouvons aussi définir les routes dans un fichier YAML situé dans `config/routes.yaml` :
 
