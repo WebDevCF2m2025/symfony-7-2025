@@ -13,8 +13,9 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 - [Création d'un controleur de base](#création-dun-controleur-de-base)
     - [Exercice 1](#exercice-1)
 - [Les routes](#les-routes)
-  - [Les annotations de route](#les-annotations-de-route)
   - [Les routes en YAML](#les-routes-en-yaml)
+  - [Les annotations de route](#les-annotations-de-route)
+  
 
 ## Cours pour les webdev 2025
 
@@ -209,7 +210,7 @@ php bin/console make:controller
 Cette commande vous invitera à entrer le nom du contrôleur que vous souhaitez créer. Par exemple, si vous souhaitez créer un contrôleur nommé `DefaultController`, vous pouvez simplement taper `DefaultController` lorsque vous y êtes invité.
 Une fois que vous avez entré le nom du contrôleur, Symfony générera automatiquement un fichier de contrôleur dans le répertoire `src/Controller` de votre projet, ainsi qu'un fichier de vue associé dans le répertoire `templates`.
 
-Pour voir la route créée automatiquement, vous pouvez utiliser la commande suivante :
+Pour voir la route créée automatiquement, vous pouvez utiliser la commande suivante (inutile d'utiliser les testes unitaires pour l'instant) :
 
 ```bash
 php bin/console debug:router
@@ -221,11 +222,14 @@ Documentation officielle pour créer un contrôleur : [make:controller](https://
 
 #### Exercice 1
 
-1. Créez un nouveau projet Symfony webapp nommé `exercice1`.
-2. Créez un contrôleur nommé `HomeController`.
-3. Dans ce contrôleur, créez une méthode `index` qui renvoie une réponse simple avec le texte "Bienvenue sur la page d'accueil !", en plus du code de la vue par défaut.
-4. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL racine `/`.
-5. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/` dans votre navigateur.
+1. Créez un nouveau projet Symfony webapp nommé `SymfonyExercice1`.
+2. Créez un contrôleur nommé `HomeController` en utilisant la commande `make:controller`.
+3. Dans ce contrôleur, modifiez la méthode `index` pour qu'elle renvoie une réponse dans une variable `title` contenant le texte "Bienvenue sur la page d'accueil !", en plus du code de la vue par défaut.
+4. Dans le fichier de vue `templates/home/index.html.twig`, affichez la variable `title` dans la balise `<h1>` à la place du texte par défaut. 
+5. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL racine `/`. 
+6. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/` dans votre navigateur.
+
+Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\HomeController.php` et `templates\home\index.html.twig` une fois que vous avez terminé l'exercice.
 
 [Retour au menu](#menu)
 
@@ -234,6 +238,53 @@ Documentation officielle pour créer un contrôleur : [make:controller](https://
 Les routes dans Symfony sont définies à l'aide d'`annotations`, de fichiers `YAML` ou `XML` (Le `XML` sera prochainement obsolète pour cet usage). Par défaut, lorsque vous créez un contrôleur avec la commande `make:controller`, une route est automatiquement créée pour la méthode `index` du contrôleur.
 
 [Documentation officielle sur les routes](https://symfony.com/doc/current/routing.html) et exemple en 6.4 LTS : [Les routes](https://github.com/mikhawa/Symfony-6.4-LTS?tab=readme-ov-file#manipulation-des-routes)
+
+[Retour au menu](#menu)
+
+### Les routes en YAML
+
+Nous pouvons aussi définir les routes dans un fichier YAML situé dans `config/routes.yaml` pour centraliser les routes de notre application :
+
+```yaml
+# config/routes.yaml
+# ici le code pour les annotations
+# qui peut être supprimé si on veut tout en YAML
+controllers:
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+# ici le code pour notre page 2
+page2:
+  path: /page2
+  controller: App\Controller\HomeController::page2
+  
+    
+```
+
+Vous devriez pouvoir le tester en ajoutant la méthode `page2` dans le contrôleur `HomeController` :
+
+```php
+// src/Controller/HomeController.php
+# ...
+    #[Route('/page2', name: 'page2')]
+    public function page2(): Response
+    {
+        return new Response('Bienvenue sur la page 2 !');
+    }
+# ...
+```
+
+Attention, le `yaml` est sensible aux espaces et aux indentations.
+
+Videz le cache si nécessaire avec la commande :
+
+```bash
+php bin/console cache:clear
+```
+
+Vous devriez pouvoir accéder à la page 2 via l'URL https://127.0.0.1:8000/page2
+
 
 [Retour au menu](#menu)
 
@@ -258,13 +309,6 @@ class HomeController extends AbstractController
 
 [Retour au menu](#menu)
 
-### Les routes en YAML
 
-Nous pouvons aussi définir les routes dans un fichier YAML situé dans `config/routes.yaml` :
-
-```yaml
-home:
-    
-```
 
 
