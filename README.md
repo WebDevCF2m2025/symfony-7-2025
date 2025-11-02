@@ -298,7 +298,7 @@ php bin/console debug:router
 
 1. Créez un nouveau projet Symfony webapp nommé `SymfonyExercice2`.
 2. Créez un contrôleur nommé `YamlController` en utilisant la commande `make:controller`.
-3. supprimez ces 3 lignes dans le controleur `YamlController` généré automatiquement (inutile pour cet exercice) :
+3. Supprimez ces 3 lignes dans le controleur `YamlController` généré automatiquement (devenues inutiles pour cet exercice) :
    ```php
    use Symfony\Component\Routing\Annotation\Route; // <-- Importation de l'attribut
    #[Route('/yaml', name: 'app_yaml')] // <-- Attribut à supprimer
@@ -313,7 +313,7 @@ php bin/console debug:router
        return new Response('Bienvenue sur la page YAML !');
    }
    ```
-5. Dans le fichier `config/routes.yaml`, supprimez le code des annotations (si vous l'avez laissé) et ajoutez une nouvelle route `yaml_index` qui mappe l'URL `/` à la méthode `index` du contrôleur `YamlController`.
+5. Dans le fichier `config/routes.yaml`, supprimez le code des annotations (qui y sont par défaut) et ajoutez une nouvelle route `yaml_index` qui mappe l'URL `/` à la méthode `index` du contrôleur `YamlController`.
 **ICI**
 
 Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\HomeController.php` et `templates\home\index.html.twig` une fois que vous avez terminé l'exercice.
