@@ -222,8 +222,39 @@ Documentation officielle pour créer un contrôleur : [make:controller](https://
 1. Créez un nouveau projet Symfony webapp nommé `exercice1`.
 2. Créez un contrôleur nommé `HomeController`.
 3. Dans ce contrôleur, créez une méthode `index` qui renvoie une réponse simple avec le texte "Bienvenue sur la page d'accueil !", en plus du code de la vue par défaut.
-4. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL `/`.
+4. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL racine `/`.
 5. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/` dans votre navigateur.
 
 [Retour au menu](#menu)
+
+### Les routes
+
+Les routes dans Symfony sont définies à l'aide d'`annotations`, de fichiers `YAML` ou `XML` (Le `XML` sera prochainement obsolète pour cet usage). Par défaut, lorsque vous créez un contrôleur avec la commande `make:controller`, une route est automatiquement créée pour la méthode `index` du contrôleur.
+
+[Documentation officielle sur les routes](https://symfony.com/doc/current/routing.html) et exemple en 6.4 LTS : [Les routes](https://github.com/mikhawa/Symfony-6.4-LTS?tab=readme-ov-file#manipulation-des-routes)
+
+#### Les annotations de route
+Voici un exemple d'annotation de route dans un contrôleur :
+
+```php
+// src/Controller/HomeController.php
+namespace App\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+class HomeController extends AbstractController
+{
+    #[Route('/', name: 'home')]
+    public function index(): Response
+    {
+        return new Response('Bienvenue sur la page d\'accueil !');
+    }
+}
+``` 
+
+Nous pouvons aussi définir les routes dans un fichier YAML situé dans `config/routes.yaml` :
+
+```yaml
+home:
+    
 
