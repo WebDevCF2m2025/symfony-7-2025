@@ -292,6 +292,8 @@ Vous pouvez vérifier les routes définies avec la commande :
 php bin/console debug:router
 ```
 
+Son utilisation est très simple et permet de centraliser les routes de votre application dans un seul fichier, ce qui peut être utile pour les grandes applications, ou si vous préférez gérer les routes de cette manière plutôt qu'avec des annotations (par exemple pour une API REST).
+
 [Retour au menu](#menu)
 
 #### Exercice 2
@@ -320,7 +322,7 @@ php bin/console debug:router
 9. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/about` dans votre navigateur, vous devriez voir le message "Bienvenue sur la page À propos !".
 10. Ajoutez un simple lien dans les réponses des deux méthodes pour naviguer entre les deux pages.
 
-Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\HomeController.php` et `templates\home\index.html.twig` une fois que vous avez terminé l'exercice.
+Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\YamlController` et `config\routes.yaml` une fois que vous avez terminé l'exercice.
 
 [Retour au menu](#menu)
 
