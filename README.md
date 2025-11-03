@@ -16,6 +16,8 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
   - [Les routes en YAML](#les-routes-en-yaml)
         - [Exercice 2](#exercice-2)
   - [Les annotations de route](#les-annotations-de-route)
+- [Le moteur de templates Twig](#le-moteur-de-templates-twig)
+- 
   
 
 ## Cours pour les webdev 2025
@@ -238,6 +240,8 @@ Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\Hom
 
 Les routes dans Symfony sont définies à l'aide d'`annotations`, de fichiers `YAML` ou `XML` (Le `XML` sera prochainement obsolète pour cet usage). Par défaut, lorsque vous créez un contrôleur avec la commande `make:controller`, une route est automatiquement créée pour la méthode `index` du contrôleur.
 
+Les 2 principales façons de définir des routes sont les `annotations` et les fichiers `YAML`.
+
 [Documentation officielle sur les routes](https://symfony.com/doc/current/routing.html) et exemple en 6.4 LTS : [Les routes](https://github.com/mikhawa/Symfony-6.4-LTS?tab=readme-ov-file#manipulation-des-routes)
 
 [Retour au menu](#menu)
@@ -347,6 +351,45 @@ class HomeController extends AbstractController
 
 [Retour au menu](#menu)
 
+## Le moteur de templates Twig
+Symfony utilise le moteur de templates Twig pour générer des vues HTML. Twig est un moteur de templates puissant et flexible qui permet de séparer la logique de présentation de la logique métier.
+Voici un exemple simple d'utilisation de Twig dans un contrôleur Symfony :
 
+```php
+// src/Controller/HomeController.php
+namespace App\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+class HomeController extends AbstractController
+{
+    #[Route('/', name: 'home')]
+    public function index(): Response
+    {
+        return $this->render('home/index.html.twig', [
+            'title' => 'Bienvenue sur la page d\'accueil !',
+        ]);
+    }
+}
+```
+Dans cet exemple, nous utilisons la méthode `render` pour générer une vue Twig située dans le fichier `templates/home/index.html.twig`. Nous passons également une variable `title` à la vue, qui peut être utilisée dans le template Twig.
 
+Vous remarquerez que Twig ne semble pas être appelé explicitement dans le contrôleur. En effet, Symfony intègre Twig de manière transparente, ce qui permet aux développeurs de se concentrer sur la logique métier sans se soucier de la configuration du moteur de templates. On appelle cela de l'**injection de dépendances** (`autowire: true` dans config/services.yaml).
 
+Voici un exemple simple de template Twig utilisant la variable `title` passée depuis le contrôleur :
+
+```twig
+{# templates/home/index.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>Ceci est la page d'accueil de notre application Symfony.</p>
+</body>
+</html>
+```
+Dans ce template, nous utilisons la syntaxe Twig pour afficher la variable `title` dans la balise `<title>` et dans la balise `<h1>`. Twig offre de nombreuses fonctionnalités avancées, telles que les boucles, les conditions, les filtres, etc., qui permettent de créer des vues dynamiques et interactives.
