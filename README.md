@@ -241,7 +241,7 @@ Documentation officielle pour créer un contrôleur : [make:controller](https://
 5. Configurez une route pour cette méthode afin qu'elle soit accessible via l'URL racine `/`. 
 6. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/` dans votre navigateur.
 
-Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\HomeController.php` et `templates\home\index.html.twig` une fois que vous avez terminé l'exercice.
+Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\Controller\HomeController.php` et `templates\home\index.html.twig` une fois que vous avez terminé l'exercice.
 
 [Retour au menu](#menu)
 
@@ -335,7 +335,7 @@ Son utilisation est très simple et permet de centraliser les routes de votre ap
 9. Testez votre application en accédant à l'URL `https://127.0.0.1:8000/about` dans votre navigateur, vous devriez voir le message "Bienvenue sur la page À propos !".
 10. Ajoutez un simple lien dans les réponses des deux méthodes pour naviguer entre les deux pages.
 
-Envoyez-moi le code à `gitweb@cf2m.be` de votre contrôleur `src\Controller\YamlController.php` et `config\routes.yaml` une fois que vous avez terminé l'exercice.
+Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\Controller\YamlController.php` et `config\routes.yaml` une fois que vous avez terminé l'exercice.
 
 [Retour au menu](#menu)
 
@@ -434,3 +434,8 @@ Importez `exercices/exercice3/template.html.twig` à la racine du dossier `templ
    - Dans le bloc `main`, ajoutez une balise `<h1>` avec le texte "{{ controller_name }} | Bienvenue sur la page Twig Exercice 3 !" et un paragraphe `<p>` avec le texte "Ceci est un exercice pour pratiquer Twig dans Symfony.".
 6. Dans le contrôleur `TwigController`, modifiez la méthode `index` pour passer une variable `controller_name` avec la valeur "TwigController" à la vue et le path à `/`.
 7. Testez votre application en accédant à l'URL racine, vous devriez voir la page avec le titre et le contenu modifiés.
+
+Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\Controller\TwigController.php` et `templates\twig\index.html.twig` une fois que vous avez terminé l'exercice.
+
+**Nous allons garder ce projet pour les exercices suivants.**
+[Retour au menu](#menu)
