@@ -16,8 +16,9 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
   - [Les routes en YAML](#les-routes-en-yaml)
         - [Exercice 2](#exercice-2)
   - [Les annotations de route](#les-annotations-de-route)
-  - [Le moteur de templates Twig](#le-moteur-de-templates-twig)
-          - [Exercice 3](#exercice-3)
+- [Le moteur de templates Twig](#le-moteur-de-templates-twig)
+        - [Exercice 3](#exercice-3)
+
   
 
 ## Cours pour les webdev 2025
@@ -429,7 +430,7 @@ Dans ce template, nous utilisons la syntaxe Twig pour afficher la variable `titl
 ```
 Importez `exercices/exercice3/template.html.twig` à la racine du dossier `templates` de votre projet.
 4. Modifiez le template `templates/twig/index.html.twig` pour qu'il étende `template.html.twig` au lieu de `base.html.twig`.
-5. Dans le template `templates/twig/index.html.twig`, remplacez le contenu des blocs `title` et `body` par les éléments suivants :
+5. Dans le template `templates/twig/index.html.twig`, remplacez le contenu des blocs `title` et `main` par les éléments suivants :
    - Dans le bloc `title`, affichez "{{ controller_name }} | Accueil".
    - Dans le bloc `main`, ajoutez une balise `<h1>` avec le texte "{{ controller_name }} | Bienvenue sur la page Twig Exercice 3 !" et un paragraphe `<p>` avec le texte "Ceci est un exercice pour pratiquer Twig dans Symfony.".
 6. Dans le contrôleur `TwigController`, modifiez la méthode `index` pour passer une variable `controller_name` avec la valeur "TwigController" à la vue et le path à `/`.
@@ -439,3 +440,81 @@ Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\C
 
 **Nous allons garder ce projet pour les exercices suivants.**
 [Retour au menu](#menu)
+
+## Les routes avancées et les vues Twig
+
+Continuons dans la prochaine partie avec les routes avancées (paramètres, contraintes, redirections) et les vues Twig (héritage, filtres, fonctions, boucles, conditions).
+
+Nous allons créer des pages dynamiques avec des paramètres dans les routes, et utiliser Twig pour afficher ces données de manière élégante.
+
+Pour notre page d'accueil, nous allons ajouter des liens vers d'autres pages ($menus) et afficher des informations dynamiques : 
+
+```php
+// src/Controller/TwigController.php
+# ...
+#[Route('/', name: 'homepage')]
+    public function index(): Response
+    {
+        // création de données fictives
+        $title = 'Bienvenue sur mon site';
+        $description = 'Ceci est une description de mon site web.';
+        $menus = ['Accueil'=>"/", 'Articles'=>"/articles", 'Contact'=>"/contact", 'A propos'=>"/about"];
+        // rendu du template Twig avec les données
+        return $this->render('twig/index.html.twig', [
+            'title' => $title,
+            'description' => $description,
+            'menus' => $menus,
+        ]);
+    }
+# ...
+```
+
+Et dans le template Twig `templates/twig/index.html.twig` :
+
+```twig
+{% extends 'template.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}
+    <!-- Navigation moderne pour le front -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ path('homepage')}}">
+                <i class="bi bi-newspaper me-2"></i>Mon Blog
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% for title, path in menus %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path }}">{{ title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block hero_title %}{{ title }}{% endblock %}
+{% block hero_text %}{{ description }}{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12">
+            <p>Contenu principal de la page d'accueil.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block aside %}{% endblock %}
+```
+
+[Retour au menu](#menu)
+
+## Création de la base de données avec Doctrine ORM
+
+
