@@ -15,7 +15,7 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 - [Les routes](#les-routes)
   - [Les routes en YAML](#les-routes-en-yaml)
         - [Exercice 2](#exercice-2)
-  - [Les annotations de route](#les-annotations-de-route)
+  - [Les attributs de route](#les-attributs-de-route)
 - [Le moteur de templates Twig](#le-moteur-de-templates-twig)
         - [Exercice 3](#exercice-3)
 - [Les routes avancées et les vues Twig](#les-routes-avancées-et-les-vues-twig)
@@ -250,9 +250,9 @@ Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\C
 
 ## Les routes
 
-Les routes dans Symfony sont définies à l'aide d'`annotations`, de fichiers `YAML` ou `XML` (Le `XML` sera prochainement obsolète pour cet usage). Par défaut, lorsque vous créez un contrôleur avec la commande `make:controller`, une route est automatiquement créée pour la méthode `index` du contrôleur.
+Les routes dans Symfony sont définies à l'aide d'`attributs`, de fichiers `YAML` ou `XML` (Le `XML` sera prochainement obsolète pour cet usage). Par défaut, lorsque vous créez un contrôleur avec la commande `make:controller`, une route est automatiquement créée pour la méthode `index` du contrôleur.
 
-Les 2 principales façons de définir des routes sont les `annotations` et les fichiers `YAML`.
+Les 2 principales façons de définir des routes sont les `attributs` et les fichiers `YAML`.
 
 [Documentation officielle sur les routes](https://symfony.com/doc/current/routing.html) et exemple en 6.4 LTS : [Les routes](https://github.com/mikhawa/Symfony-6.4-LTS?tab=readme-ov-file#manipulation-des-routes)
 
@@ -264,7 +264,7 @@ Nous pouvons aussi définir les routes dans un fichier YAML situé dans `config/
 
 ```yaml
 # config/routes.yaml
-# ici le code pour les annotations
+# ici le code pour les attributs
 # qui peut être supprimé si on veut tout en YAML
 controllers:
   resource:
@@ -308,7 +308,7 @@ Vous pouvez vérifier les routes définies avec la commande :
 php bin/console debug:router
 ```
 
-Son utilisation est très simple et permet de centraliser les routes de votre application dans un seul fichier, ce qui peut être utile pour les grandes applications, ou si vous préférez gérer les routes de cette manière plutôt qu'avec des annotations (par exemple pour une API REST).
+Son utilisation est très simple et permet de centraliser les routes de votre application dans un seul fichier, ce qui peut être utile pour les grandes applications, ou si vous préférez gérer les routes de cette manière plutôt qu'avec des attributs (par exemple pour une API REST).
 
 [Retour au menu](#menu)
 
@@ -331,7 +331,7 @@ Son utilisation est très simple et permet de centraliser les routes de votre ap
        return new Response('Bienvenue sur la page YAML !');
    }
    ```
-5. Dans le fichier `config/routes.yaml`, supprimez le code des annotations (qui y sont par défaut) et ajoutez une nouvelle route `yaml_index` qui mappe l'URL `/` à la méthode `index` du contrôleur `YamlController`.
+5. Dans le fichier `config/routes.yaml`, supprimez le code des attributs (qui y sont par défaut) et ajoutez une nouvelle route `yaml_index` qui mappe l'URL `/` à la méthode `index` du contrôleur `YamlController`.
 6. Testez votre application en accédant à l'URL racine, vous ne devriez plus voir la page par défaut de Symfony, mais le message "Bienvenue sur la page YAML !" s'afficher.
 7. Créez une nouvelle méthode `about` dans le contrôleur `YamlController` qui renvoie une réponse avec le texte "Bienvenue sur la page À propos !".
 8. Ajoutez une nouvelle route `yaml_about` dans le fichier `config/routes.yaml` qui mappe l'URL `/about` à la méthode `about` du contrôleur `YamlController`.
@@ -350,7 +350,7 @@ Voici un exemple d'attributs de route dans un contrôleur :
 namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
@@ -372,7 +372,7 @@ Voici un exemple simple d'utilisation de Twig dans un contrôleur Symfony :
 namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
