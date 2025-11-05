@@ -318,7 +318,7 @@ Son utilisation est très simple et permet de centraliser les routes de votre ap
 2. Créez un contrôleur nommé `YamlController` en utilisant la commande `make:controller`.
 3. Supprimez ces 3 lignes dans le controleur `YamlController` généré automatiquement (devenues inutiles pour cet exercice) :
    ```php
-   use Symfony\Component\Routing\Annotation\Route; // <-- Importation de l'attribut
+   use Symfony\Component\Routing\Attribute\Route; // <-- Importation de l'attribut
    #[Route('/yaml', name: 'app_yaml')] // <-- Attribut à supprimer
    return $this->render('yaml/index.html.twig', [
             'controller_name' => 'YamlController',
@@ -342,8 +342,8 @@ Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\C
 
 [Retour au menu](#menu)
 
-### Les annotations de route
-Voici un exemple d'annotation de route dans un contrôleur :
+### Les attributs de route
+Voici un exemple d'attributs de route dans un contrôleur :
 
 ```php
 // src/Controller/HomeController.php
