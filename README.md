@@ -23,6 +23,7 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 - [Variables d'environnement et configuration de la base de données](#variables-denvironnement-et-configuration-de-la-base-de-données)
         - [Exercice 5](#exercice-5)
 - [Création d'une entité et manipulation des données avec Doctrine ORM](#création-dune-entité-et-manipulation-des-données-avec-doctrine-orm)
+        - [Exercice 6](#exercice-6)
 
   
 
@@ -700,7 +701,7 @@ Pour chaque champ, Symfony vous demandera de spécifier le type de données, la 
 
 [Documentation officielle sur la création d'entités avec Doctrine ORM](https://symfony.com/doc/current/doctrine.html#creating-an-entity-class)
 
-Comme vous pouvez le voir, Symfony génère automatiquement les getters et setters pour chaque champ de l'entité dans le fichier `src/Entity/Article.php`.
+Comme vous pouvez le voir, Symfony génère automatiquement les getters et setters pour chaque champ de l'entité dans le fichier `src/Entity/Article.php`. Un autre fichier `src/Repository/ArticleRepository.php` est aussi créé pour gérer les opérations de base de données liées à l'entité `Article`.
 
 Ces champs représentent les propriétés de l'entité `Article`, et les méthodes `get` et `set` permettent d'accéder et de modifier ces propriétés. Les annotations au-dessus des propriétés définissent la manière dont chaque champ est mappé à la base de données, et Doctrine est souple vis-à-vis de ces définitions.
 
@@ -722,7 +723,7 @@ Vous devriez obtenir un fichier de migration dans le dossier `migrations/`. Il c
 php bin/console doctrine:migrations:migrate
 ```
 Cliquez sur `yes` pour confirmer l'exécution de la migration. Vous devriez voir un message indiquant que la table `article` a été créée avec succès.
-5. Vérifiez que la table `article` a été créée dans la base de données en utilisant un outil comme `phpMyAdmin`. Vous pouvez constater que les champs sont présents, mais ne respectent pas encore toutes les contraintes (unsigned, valeur par défault etc). Il existe 2 autres tables dans la base de données : `migration_versions`, qui contiendra l'historique des migrations, et `messenger_messages` qui ne sera utile que si on utilise la base de donnée comme file d'attente.
+5. Vérifiez que la table `article` a été créée dans la base de données en utilisant un outil comme `phpMyAdmin`. Vous pouvez constater que les champs sont présents, mais ne respectent pas encore toutes les contraintes (unsigned, valeur par défault etc). Il existe 2 autres tables dans la base de données : `migration_versions`, qui contiendra l'historique des migrations, et `messenger_messages` qui ne sera utile que si on utilise la base de donnée comme file d'attente (Queue) `Asynchrone`.
 6. Modifiez l'entité `Article` pour ajouter les contraintes suivantes :
 ```php
 // src/Entity/Article.php
@@ -763,3 +764,12 @@ php bin/console doctrine:migrations:migrate
 ```
 Cliquez sur `yes` pour confirmer l'exécution de la migration. Vous devriez voir un message indiquant que la table `article` a été modifiée avec succès.
 9. Vérifiez que les contraintes ont été appliquées à la table `article` dans la base de données en utilisant un outil comme `phpMyAdmin`. Vous devriez constater que les champs ont les contraintes spécifiées (id non signé, slug unique, isPublished avec valeur par défaut false).
+10. Vous pouvez exécuter du code SQL directement dans le terminal pour vérifier les contraintes, par exemple :
+
+```bash
+php bin/console dbal:run-sql 'SELECT * FROM article'
+```
+
+Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\Controller\HomeController.php` et votre fichier `.env.local` (ceci reste un exercice !) une fois que vous avez terminé.
+
+[Retour au menu](#menu)
