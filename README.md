@@ -24,6 +24,8 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
         - [Exercice 5](#exercice-5)
 - [Création d'une entité et manipulation des données avec Doctrine ORM](#création-dune-entité-et-manipulation-des-données-avec-doctrine-orm)
         - [Exercice 6](#exercice-6)
+- [CRUD des articles](#crud-des-articles)
+        - [Exercice 7](#exercice-7)
 
   
 
@@ -816,9 +818,11 @@ Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\C
 
 [Retour au menu](#menu)
 
-## CRUD des articles avec un formulaire Symfony
+## CRUD des articles
 
-Nous allons créer un formulaire Symfony pour gérer les opérations CRUD (Create, Read, Update, Delete) des articles dans notre application Symfony.
+Pour observer la puissance de Symfony avec `Doctrine` **ORM** (Object-Relational Mapping), nous allons utiliser la commande `make:crud` pour générer automatiquement un ensemble complet de fonctionnalités `CRUD` (Create, Read, Update, Delete) pour l'entité `Article` que nous avons créée précédemment.
+
+La commande suivante génère un contrôleur, des vues Twig, et les routes nécessaires pour gérer les opérations CRUD sur les articles :
 
 ```bash
 php bin/console make:crud Article
@@ -844,3 +848,27 @@ $ php bin/console debug:router
 
 Et la magie opère (bien que le code généré puisse être amélioré) !
 [Retour au menu](#menu)
+
+#### Exercice 7
+1. Partez du projet `SymfonyExercice5` créé précédemment.
+2. Ajoutez une route sur le template `templates/home/index.html.twig` pour accéder à la liste des articles via le CRUD généré (utilisation de la fonction `path()` de Twig). Il nous affiche donc un lien vers la gestion des articles.
+3. Séparez le menu pour créer une navigation réutilisable dans `templates/inc/_nav.html.twig` et incluez-le dans `base.html.twig` :
+
+```twig
+{# templates/inc/_nav.html.twig #}
+<nav>
+    <a href="{{ path('accueil') }}">Accueil</a> 
+    <a href="{{ path('app_article_index') }}">Gestion des Articles</a>
+</nav>
+```
+et dans `base.html.twig` :
+```twig
+{# templates/base.html.twig #}
+{#... #}
+<body>
+    {% block nav %}{{ include('inc/_nav.html.twig') }}{% endblock%}
+    {% block body %}{% endblock %}
+</body>
+{#... #}
+```
+4. Testez votre application en accédant à l'URL racine `/` pour voir le lien vers la gestion des articles.
