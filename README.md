@@ -815,3 +815,32 @@ use App\Entity\Article;
 Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\Controller\HomeController.php` et votre fichier `templates/home/index.html.twig`  une fois que vous avez terminé.
 
 [Retour au menu](#menu)
+
+## CRUD des articles avec un formulaire Symfony
+
+Nous allons créer un formulaire Symfony pour gérer les opérations CRUD (Create, Read, Update, Delete) des articles dans notre application Symfony.
+
+```bash
+php bin/console make:crud Article
+```
+Cette commande génère automatiquement un contrôleur `ArticleController` dans le répertoire `src/Controller/`, ainsi que les vues Twig correspondantes dans le répertoire `templates/article/`.
+
+Le contrôleur `ArticleController` contient des méthodes pour chaque opération CRUD, telles que `index`, `new`, `show`, `edit`, et `delete`. Chaque méthode est associée à une route spécifique pour gérer les requêtes HTTP correspondantes.
+
+Voici un aperçu des routes générées pour le `CRUD` des articles :
+
+```bash
+$ php bin/console debug:router
+ -------------------------- -------- -------- ------ ---------------- 
+  Name                       Method   Scheme   Host   Path             
+ -------------------------- -------- -------- ------ ---------------- 
+  app_article_index              GET      ANY      ANY    /article/        
+  app_article_new                GET|POST ANY      ANY    /article/new     
+  app_article_show               GET      ANY      ANY    /article/{id}    
+  app_article_edit               GET|POST ANY      ANY    /article/{id}/edit
+  app_article_delete             POST     ANY      ANY    /article/{id}    
+ -------------------------- -------- -------- ------ ----------------
+```
+
+Et la magie opère (bien que le code généré puisse être amélioré) !
+[Retour au menu](#menu)
