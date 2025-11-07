@@ -879,3 +879,13 @@ et dans `base.html.twig` :
 5. Cliquez sur le lien pour accéder à la liste des articles via le CRUD généré, ajoutez, modifiez et supprimez des articles pour tester les fonctionnalités CRUD.
 
 Vous remarquerez que le code généré peut être amélioré, notamment en ajoutant des validations, en n'ajoutant pas certains champs à l'insertion, en créant le `slug`, sans parler du graphisme !
+
+6. Dans le fichier `templates\article\_form.html.twig`, trouvez un script JavaScript qui permet de ne pas faire apparaitre `publishedAt` si `isPublished` n'est pas coché. `publishedAt` prendra l'heure actuelle si l'article est publié, sinon il restera ou sera remis à `null` (ou champ vide).
+
+Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` les fichiers suivants
+- votre contrôleur `src/Controller/ArticleController.php`
+- votre vue `templates/home/index.html.twig`
+- votre vue `templates/inc/_nav.html.twig`
+- votre vue `templates/article/_form.html.twig` une fois que vous avez terminé.
+
+[Retour au menu](#menu)
