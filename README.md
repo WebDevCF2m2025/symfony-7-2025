@@ -440,11 +440,15 @@ Dans ce template, nous utilisons la syntaxe Twig pour afficher la variable `titl
 </html>
 ```
 Importez `exercices/exercice3/template.html.twig` à la racine du dossier `templates` de votre projet.
+
 4. Modifiez le template `templates/twig/index.html.twig` pour qu'il étende `template.html.twig` au lieu de `base.html.twig`.
+
 5. Dans le template `templates/twig/index.html.twig`, remplacez le contenu des blocs `title` et `main` par les éléments suivants :
    - Dans le bloc `title`, affichez "{{ controller_name }} | Accueil".
    - Dans le bloc `main`, ajoutez une balise `<h1>` avec le texte "{{ controller_name }} | Bienvenue sur la page Twig Exercice 3 !" et un paragraphe `<p>` avec le texte "Ceci est un exercice pour pratiquer Twig dans Symfony.".
+
 6. Dans le contrôleur `TwigController`, modifiez la méthode `index` pour passer une variable `controller_name` avec la valeur "TwigController" à la vue et le path à `/`.
+
 7. Testez votre application en accédant à l'URL racine, vous devriez voir la page avec le titre et le contenu modifiés.
 
 Envoyez-moi le code à `gitweb@cf2m.be` dans `Teams` de votre contrôleur `src\Controller\TwigController.php` et `templates\twig\index.html.twig` une fois que vous avez terminé l'exercice.
