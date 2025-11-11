@@ -16,11 +16,13 @@ Pour formater le code PHP selon les standards PSR-12, vous pouvez utiliser PHP C
 
 [Documentation officielle](https://cs.symfony.com/).
 
-1. Installez PHP CS Fixer globalement via Composer (si ce n'est pas déjà fait):
-   ```bash
-    composer require --dev friendsofphp/php-cs-fixer
-   ```
+Installez PHP CS Fixer globalement via Composer (si ce n'est pas déjà fait) :
+
+```bash
+composer require --dev friendsofphp/php-cs-fixer
+ ```
 Pour l'utiliser, vous pouvez exécuter la commande suivante dans le répertoire de votre projet Symfony :
+
    ```bash
     ./vendor/bin/php-cs-fixer fix
    ```
@@ -51,11 +53,226 @@ Nous verrons que ça servira à chaque fois que nous écrirons du code dans les 
 
 Symfony fournit un système robuste pour gérer les utilisateurs et sécuriser les routes de votre application. Voici comment configurer l'administration et la sécurisation d'un utilisateur dans Symfony.
 
+[documentation officielle](https://symfony.com/doc/current/security.html).
+
 #### Exercice 8
+Continuez dans `SymfonyExercice5`.
 
 1. **Installation du composant de sécurité** :
    Si ce n'est pas déjà fait, installez le composant de sécurité via Composer :
    ```bash
    composer require symfony/security-bundle
    ```
+2 . **Création de l'entité User** : 
+    Utilisez la commande suivante pour créer une entité User :
+    ```bash
+    php bin/console make:user
+    ```
+    Suivez les instructions pour définir les propriétés de l'utilisateur (comme le nom d'utilisateur, le mot de passe, etc.).
+    - choisissez User comme nom de classe
+    - acceptez Doctrine ORM Entity
+    - choisissez username comme identifiant
+    - hashez le mot de passe
 
+Les fichiers suivants seront créés/modifiés :
+   - `src/Entity/User.php` : L'entité User avec les propriétés définies
+   - `src/Repository/UserRepository.php` : Le repository pour gérer les utilisateurs
+   - `config/packages/security.yaml` : Le fichier de configuration de la sécurité
+
+   2. **Amélioration de l'entité User** :
+      Ouvrez le fichier `src/Entity/User.php` et ajoutez des propriétés supplémentaires si nécessaire, comme l'email, les rôles, etc. Voici un exemple simple :
+```php
+<?php
+
+namespace App\Entity;
+
+use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 180)]
+    private ?string $username = null;
+
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+
+    # date lors de la création
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $hiddenKey = null;
+
+    #[ORM\Column(length: 200,unique: true)]
+    private ?string $email = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
+     */
+    public function __serialize(): array
+    {
+        $data = (array) $this;
+        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+
+        return $data;
+    }
+
+    #[\Deprecated]
+    public function eraseCredentials(): void
+    {
+        // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getHiddenKey(): ?string
+    {
+        return $this->hiddenKey;
+    }
+
+    public function setHiddenKey(string $hiddenKey): static
+    {
+        $this->hiddenKey = $hiddenKey;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+}
+
+```
+
+N'oubliez pas de regénérer les setters et getters si vous ajoutez de nouvelles propriétés avec la commande :
+```bash
+php bin/console make:entity --regenerate
+```
+
+4. Créez la migration pour mettre à jour la base de données avec la commande
+5. Mettez à jour la base de données
+
+   3. **Configuration de la sécurité** :
+      Modifiez le fichier `config/packages/security.yaml` pour définir les règles de sécurité. Voici
+
+       un exemple de configuration basique :
+```yaml
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+                #....
+```
+
+        
