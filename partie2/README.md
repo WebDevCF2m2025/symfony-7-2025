@@ -6,11 +6,30 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 
 ## Menu
 - [Retour à la partie 1](../README.md)
+- [Mise à jour de Symfony](#mise-à-jour-de-symfony)
 - [Installation de PHP CS Fixer](#php-cs-fixer)
 - [Administration et sécurisation d'un utilisateur](#administration-et-sécurisation-dun-utilisateur)
         - [exercice 8](#exercice-8)
 - 
+## Mise à jour de Symfony
 
+Symfony 7.3.7 est la dernière version stable de Symfony le 16-11-2025.
+Pour mettre à jour Symfony vers la dernière version, vous pouvez utiliser Composer.
+**Vérifiez la version actuelle de Symfony** :
+
+```bash
+ php bin/console --version
+```
+Mettez à jour Symfony et ses composants en utilisant Composer :
+
+```bash
+composer update
+```
+
+Cela mettra à jour tous les paquets Symfony vers leur dernière version compatible.
+
+[Retour au menu](#menu)
+   
 ## PHP CS Fixer
 Pour formater le code PHP selon les standards PSR-12, vous pouvez utiliser PHP CS Fixer. Voici comment l'installer et l'utiliser dans votre projet Symfony. 
 
@@ -23,27 +42,29 @@ composer require --dev friendsofphp/php-cs-fixer
  ```
 Pour l'utiliser, vous pouvez exécuter la commande suivante dans le répertoire de votre projet Symfony :
 
-   ```bash
-    ./vendor/bin/php-cs-fixer fix
-   ```
+```bash
+./vendor/bin/php-cs-fixer fix
+```
+
 Cela analysera et corrigera automatiquement les fichiers PHP de votre projet selon les règles définies par défaut.
 
-Vous pouvez également créer un fichier de configuration `.php-cs-fixer.dist.php` à la racine de votre projet pour personnaliser les règles de formatage. Voici un exemple de configuration basique :
-   ```php
-    <?php
+Vous pouvez également créer un fichier de configuration `.php-cs-fixer.dist.php` à la racine de votre projet pour personnaliser les règles de formatage. Voici un exemple de configuration basique pour Symfony :
 
-    $finder = PhpCsFixer\Finder::create()
-        ->in(__DIR__.'/src')
-        ->in(__DIR__.'/tests');
+```php
+<?php
 
-    return (new PhpCsFixer\Config())
-        ->setRules([
-            '@PSR12' => true,
-            'array_syntax' => ['syntax' => 'short'],
-            // Ajoutez d'autres règles selon vos besoins
-        ])
-        ->setFinder($finder);
-   ```
+$finder = (new PhpCsFixer\Finder())
+    ->in(__DIR__)
+    ->exclude('var')
+;
+
+return (new PhpCsFixer\Config())
+    ->setRules([
+        '@Symfony' => true,
+    ])
+    ->setFinder($finder)
+;
+```
 
 Nous verrons que ça servira à chaque fois que nous écrirons du code dans les prochaines parties. Très utile pour passer les `workflows` **CI/CD** (Continuous Integration/Continuous Delivery) plus tard.
 
@@ -59,12 +80,15 @@ Symfony fournit un système robuste pour gérer les utilisateurs et sécuriser l
 Continuez dans `SymfonyExercice5`.
 
 1. **Installation du composant de sécurité** :
-   Si ce n'est pas déjà fait, installez le composant de sécurité via Composer :
+   Si ce n'est pas déjà fait, installez le composant de sécurité via Composer (dèjà présent dans Symfony `--webapp`) :
+
    ```bash
    composer require symfony/security-bundle
    ```
+   
 2. **Création de l'entité User** : 
     Utilisez la commande suivante pour créer une entité User :
+
     ```bash
     php bin/console make:user
     ```
@@ -72,7 +96,7 @@ Continuez dans `SymfonyExercice5`.
     - choisissez User comme nom de classe
     - acceptez Doctrine ORM Entity
     - choisissez username comme identifiant
-    - hashez le mot de passe
+    - hachez le mot de passe
 
 Les fichiers suivants seront créés/modifiés :
    - `src/Entity/User.php` : L'entité User avec les propriétés définies
@@ -80,29 +104,28 @@ Les fichiers suivants seront créés/modifiés :
    - `config/packages/security.yaml` : Le fichier de configuration de la sécurité
 
 2. **Amélioration de l'entité User** :
-   Ouvrez le fichier `src/Entity/User.php` et ajoutez des propriétés supplémentaires si nécessaire, comme l'email, les rôles, etc. Voici un exemple simple :
+   Ouvrez le fichier `src/Entity/User.php` et modifiez les propriétés présentes (nous n'en rajouterons pas d'autres pour l'instant)  :
 
 ```php
 <?php
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\User2Repository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Entity(repositoryClass: User2Repository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User2 implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(options: ['unsigned' => true])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 80, unique: true)]
     private ?string $username = null;
 
     /**
@@ -116,17 +139,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-
-
-    # date lors de la création
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $hiddenKey = null;
-
-    #[ORM\Column(length: 200,unique: true)]
-    private ?string $email = null;
 
     public function getId(): ?int
     {
@@ -208,57 +220,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // @deprecated, to be removed when upgrading to Symfony 8
     }
-
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getHiddenKey(): ?string
-    {
-        return $this->hiddenKey;
-    }
-
-    public function setHiddenKey(string $hiddenKey): static
-    {
-        $this->hiddenKey = $hiddenKey;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
 }
 
 ```
 
-N'oubliez pas de régénérer les setters et getters si vous ajoutez de nouvelles propriétés avec la commande :
+3.  **Régénérez les setters et getters** :
+
 ```bash
 php bin/console make:entity --regenerate
 ```
+4. **Appliquez le php-cs-fixer** pour formater le code :
 
-4. **Créez la migration** pour mettre à jour la base de données avec la commande
+```bash
+./vendor/bin/php-cs-fixer fix
+```
 
-5. **Mettez à jour la base de données**
+5. **Créez la migration** pour mettre à jour la base de données avec la commande
 
-6. **Configurez le formulaire de connexion** :
+6. **Mettez à jour la base de données**
+
+7. **Configurez le formulaire de connexion** :
    Utilisez la commande suivante pour créer un formulaire de connexion :
    ```bash
    php bin/console make:auth
