@@ -15,7 +15,7 @@ Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
 
 ## Mise à jour de Symfony
 
-Symfony 7.3.7 est la dernière version stable de Symfony le 16-11-2025.
+Comme nous continuerons cet exercice avec le projet `SymfonyExercice5`, Symfony 7.3.7 est la dernière version stable de Symfony le 16-11-2025.
 Pour mettre à jour Symfony vers la dernière version, vous pouvez utiliser Composer.
 **Vérifiez la version actuelle de Symfony** :
 
@@ -387,6 +387,8 @@ Nous allons créer les entités suivantes :
 - Utilisateur (User)
 
 Chaque entité aura des relations spécifiques avec les autres, illustrant les concepts de OneToMany, ManyToOne, et ManyToMany.
+
+Ça sera dans la partie 3.
 
 [Retour au menu](#menu)
 
