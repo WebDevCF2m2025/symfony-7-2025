@@ -646,7 +646,7 @@ Il faut ensuite vérifier les paramètres de connexion à la base de données :
 - `!ChangeMe!` : mot de passe de l'utilisateur (à définir dans MariaDB/MySQL)
 - `127.0.0.1` : adresse du serveur de base de données (localhost)
 - `3306` : port de connexion à MariaDB/MySQL (par défaut 3306 ou 3307)
-- `dbname` : nom de la base de données (à créer dans MariaDB/MySQL)
+- `app` : nom de la base de données, à modifier ici en sym_exe_05
 - `serverVersion` : version du serveur de base de données (à adapter selon votre version de MariaDB/MySQL, cette information se trouve dans la commande `SELECT VERSION();` dans MariaDB/MySQL ou via `phpMyAdmin`)
 - `charset` : jeu de caractères utilisé (utf8mb4 recommandé pour MySQL/MariaDB)
 
