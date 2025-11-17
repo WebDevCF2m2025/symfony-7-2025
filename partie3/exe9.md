@@ -30,4 +30,9 @@ Créez la base de données en utilisant la commande Doctrine adéquate.
 
 Créez un contrôleur par défaut nommé `HomeController` avec une route `/` qui retourne un message "Bienvenue sur le blog Symfony de {TON PRENOM} !".
 
+Envoyez-moi le code 'lisible' à `gitweb@cf2m.be` dans `Teams` les fichiers suivants
+- votre configuration `.env.local`
+- votre contrôleur `src/Controller/HomeController.php`
+
+
 
