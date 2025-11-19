@@ -68,6 +68,8 @@ Vous devriez retourner à la page de base telle que l'image ci-dessous lorsque v
 
 ![front homepage](https://raw.githubusercontent.com/WebDevCF2m2025/symfony-7-2025/refs/heads/main/exercices/exe12debut.png)
 
+La couleur de fond vient du fichier CSS `assets/styles/app.css` et est amenée par défaut par Symfony 7 --webapp.
+
 5. **Modifiez le fichier de test** :
 
 Nous avons généré un fichier de test pour ce contrôleur. Ouvrez le fichier `tests/Controller/BlogControllerTest.php` et examinez le code généré. Vous pouvez exécuter les tests pour vérifier que tout fonctionne correctement. Il faut modifier le test pour qu'il corresponde à notre route `/`.
