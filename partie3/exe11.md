@@ -149,7 +149,7 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
 
-    // ce champ devra valoir false par défaut en base de données
+    // ce champ devra valoir false par défaut en base de données (0 pour MariaDB) et donc non publié
     #[ORM\Column(nullable: true, options: ['default' => false])]
     private ?bool $isPublished = null;
 # suite les getters et setters ...
@@ -179,8 +179,18 @@ Le résultat en image devrait maintenant être correct, répétez les opération
 
 ![Migration Article 2](https://raw.githubusercontent.com/WebDevCF2m2025/symfony-7-2025/refs/heads/main/exercices/db-article-2.png)
 
+! Attention : Si vous avez des erreurs lors de l'exécution de la migration, vous devrez peut-être annuler la dernière migration en utilisant la commande suivante avant de recréer une nouvelle migration :
+
+```bash
+php bin/console doctrine:migrations:execute --down YYYYMMDDHHMMSS
+```
+(Remplacez `YYYYMMDDHHMMSS` par le numéro de version de la dernière migration que vous souhaitez annuler.) [documentation](https://symfony.com/bundles/DoctrineMigrationsBundle/current/index.html#usage)
+
+En cas de problème persistant, effacez le contenu du dossier `migrations/` ainsi que lee contenu de la table `doctrine_migration_versions` dans la base de données, puis recréez une nouvelle migration et exécutez-la.
 
 **Envoyez-moi le lien vers votre repository github** avec la branche `exe11` finie à `gitweb@cf2m.be` dans `Teams`.
 
 [Retour au menu de la partie 3](README.md)
+ou
+[Exercice 12 : Création d'une vue d'accueil](exe12.md)
 
