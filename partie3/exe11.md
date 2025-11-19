@@ -3,15 +3,7 @@
 ## Menu
 
 - [Retour à la partie 3](README.md)
+- [Vue d'ensemble des entités et relations](db11.md)
 
-## Exercice 10 : Création de la première entité
-
-Dans cet exercice, nous allons créer les entités nécessaires pour notre application de blog Symfony.
-
-Nous allons créer les entités suivantes pour ce blog :
-- Catégorie (Category)
-- Article (Article)
-- Commentaire (Comment)
-- Utilisateur (User)
-- Tag (Tag)
+## Exercice 11 : Création de la première entité
 
