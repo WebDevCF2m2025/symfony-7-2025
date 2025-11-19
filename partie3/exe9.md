@@ -12,11 +12,11 @@ Installez PHP CS Fixer
 
 Dupliquez `.env` en `.env.local`.
 
-Configurez la connexion à la base de données dans `.env.local` en utilisant MariaDB avec les informations suivantes :
+Configurez la connexion à la base de données dans `.env.local` en utilisant `MariaDB` avec les informations suivantes :
 
 - Utilisateur : root
 - Mot de passe : root (ou vide selon votre configuration)
-- Nom de la base de données : blog_symfony_{TON PRENOM}
+- Nom de la base de données : `blog_symfony_{TON PRENOM}`
 - Hôte : localhost
 - Port : 3306 (ou 3307 si vous utilisez MAMP ou Xamp)
 - version de la base de données : 11.5.2-MariaDB (voir la version installée sur votre machine)
@@ -28,7 +28,7 @@ Modifiez le fichier `config/packages/doctrine.yaml` pour définir le `server_ver
 
 Créez la base de données en utilisant la commande Doctrine adéquate.
 
-Créez un contrôleur par défaut nommé `HomeController` avec une route `/` qui retourne un message en http (`Response`) "Bienvenue sur le blog Symfony de {TON PRENOM} !".
+Créez un contrôleur par défaut nommé `HomeController` avec une méthode nommée `homepage` avec la route `/` qui retourne un message en http (`Response`) "Bienvenue sur le blog Symfony de {TON PRENOM} !".
 
 Installez PHP CS Fixer et appliquez-le à votre code.
 
