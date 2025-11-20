@@ -90,3 +90,10 @@ php bin/phpunit
 Vous devriez voir que le test passe avec succès : OK (1 test, 1 assertion)
 ![phpunit exe12](https://raw.githubusercontent.com/WebDevCF2m2025/symfony-7-2025/refs/heads/main/exercices/exe12test.png)
 
+Ces `tests unitaires` sont primordiaux pour assurer la qualité et la fiabilité de votre code. Ils permettent de vérifier que les différentes parties de votre application fonctionnent comme prévu.
+
+**Envoyez-moi le lien vers votre repository github** avec la branche `exe12` finie à `gitweb@cf2m.be` dans `Teams`.
+
+[Retour au menu de la partie 3](README.md)
+ou
+[Exercice 13 : Création de l'entité Category et relation ManyToMany avec Article](exe13.md)

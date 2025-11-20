@@ -1,0 +1,163 @@
+# symfony-7-2025
+
+## Menu
+
+- [Retour à la partie 3](README.md)
+- [Vue d'ensemble des entités et relations](db11.md)
+
+## Exercice 13 : Création de l'entité Category et relation ManyToMany avec Article
+
+Nous continuerons le projet commencé dans les exercices précédents: `blog_symfony_{TON PRENOM}`
+
+
+### Étapes à suivre :
+
+1. **Créez une branche git** nommée `exe13` depuis la branche `exe12` (après validation de la branche `exe12`) pour cet exercice.
+
+   ```bash
+   git checkout -b exe13
+   ```
+   
+2. **Créez l'entité Category** :
+   Utilisez la commande `make:entity` pour générer l'entité `Category`  :
+    - Demande pour Symfony UX Turbo (optionnel) : `no`
+- Propriétés à ajouter :
+  - `title` (string, 100 caractères, nullable no)
+  - `slug` (string, 110 caractères, nullable no)
+  - `description` (string, 500 caractères, nullable yes)
+
+3. **Modifiez l'entité Category** pour que l'
+- `id` soit unsigned
+- `slug` soit unique
+
+4. **Effectuez une première migration**, qui devrait correspondre à la création de la table `category`.
+
+5. **Modifiez l'entité Article** pour ajouter la relation ManyToMany avec Category.
+   - Un Article peut appartenir à plusieurs Categories.
+   - Une Category peut contenir plusieurs Articles.
+
+   ```bash
+   php bin/console make:entity Article
+   ```
+
+   - Nommez la nouvelle propriété `categories`.
+   - Type de relation : `ManyToMany`
+   - Cible de la relation : `Category`
+   - Acceptez le champ inversé : `yes`
+   - Acceptez `articles` comme nom de la propriété inversée dans `Category`.
+
+6. **Ouvrez l'entité Category** pour vérifier que la relation ManyToMany avec Article soit bien définie :
+    ```php
+    // src/Entity/Category.php
+    
+    // ...
+    # pour gérer les collections (jointures ManyToMany)
+    use Doctrine\Common\Collections\ArrayCollection;
+    use Doctrine\Common\Collections\Collection;
+    // ...
+   
+    class Category
+    {
+         // ...
+    
+         # clef ManyToMany avec Article
+         /**
+          * @var Collection<int, Article>
+         */
+         #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'categories')]
+         private Collection $articles;
+   
+         // ...
+              # Initialisation de la collection dans le constructeur
+              public function __construct()
+              {
+                   $this->articles = new ArrayCollection();
+              }
+    
+         // ...
+         # Getter, ajout et suppression pour la relation ManyToMany avec Article
+         # depuis Category
+         /**
+          * @return Collection<int, Article>
+          */
+         public function getArticles(): Collection
+         {
+              return $this->articles;
+         }
+    
+         public function addArticle(Article $article): self
+         {
+              if (!$this->articles->contains($article)) {
+                $this->articles->add($article);
+                $article->addCategory($this);
+              }
+    
+              return $this;
+         }
+    
+         public function removeArticle(Article $article): self
+         {
+              if ($this->articles->removeElement($article)) {
+                $article->removeCategory($this);
+              }
+    
+              return $this;
+         }
+    }
+    ```
+   
+7. **Vérifiez l'entité Article** pour vous assurer que la relation ManyToMany avec Category est également définie correctement :
+
+
+```php
+// src/Entity/Article.php
+
+// ...
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+// ...
+
+class Article
+{
+     // ...
+
+     /**
+      * @var Collection<int, Category>
+     */
+     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
+     #[ORM\JoinTable(name: 'article_category')]
+     private Collection $categories;
+
+     // ...
+     
+          public function __construct()
+          {
+               $this->categories = new ArrayCollection();
+          }
+
+     // ...
+     /**
+      * @return Collection<int, Category>
+      */
+     public function getCategories(): Collection
+     {
+          return $this->categories;
+     }
+
+     public function addCategory(Category $category): self
+     {
+          if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+          }
+
+          return $this;
+     }
+
+     public function removeCategory(Category $category): self
+     {
+          $this->categories->removeElement($category);
+
+          return $this;
+     }
+}
+``` 
