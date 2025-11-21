@@ -225,3 +225,4 @@ Vous devriez voir des routes pour les opérations CRUD sur les entités Category
 
 [Retour au menu de la partie 3](README.md)
 ou
+[Exercice 14 : Modification des liens vers les CRUD](exe14.md)
