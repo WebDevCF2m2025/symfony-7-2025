@@ -3,6 +3,7 @@
 ## Partie 2
 
 Cours de Symfony 7.3 (lors de l'installation) aux WebDev 2025.
+- [fichier memo](https://github.com/WebDevCF2m2025/symfony-7-2025/blob/main/exercices/memo.md)
 
 ## Menu
 - [Retour à la partie 1](../README.md)
