@@ -82,11 +82,12 @@ Nous continuerons le projet commencé dans les exercices précédents: `blog_sym
 {# templates/blog/index.html.twig #}
 {% extends 'blog_template.html.twig' %}
 
-{% block title %}{{ parent() }} | Accueil{% endblock %}
+{% block title %}{{ parent() }} Accueil{% endblock %}
 
 {% block content %}
 <div class="content">
-    <h1>Bienvenue sur notre blog</h1>
+    <h1>Blog | Accueil</h1>
+    <h2>Bienvenue sur notre blog</h2>
     <p>Ceci sera la page d'accueil de notre blog</p>
 </div>
 {% endblock %}
@@ -132,3 +133,35 @@ nav ul li a:hover {
     border-radius: 5px;
 }
 ```
+
+7. **Appliquez les modifications de l'extend** dans les autres templates Twig générés pour les CRUD `Article` et `Category`. Par exemple, pour `templates/article/index.html.twig` :
+
+```twig
+{# templates/article/index.html.twig #}
+{% extends 'blog_template.html.twig' %}
+
+{% block title %}{{ parent() }} Accueil de l'Administration d'Article{% endblock %}
+
+{% block content %}
+    <h1>Accueil de l'Administration d'Article</h1>
+    {# le reste du contenu généré par make:crud #}
+{% endblock %}  
+```
+Faites de même pour les autres templates dans `templates/article/` et `templates/category/`.        
+8. **Appliquez php-cs-fixer** pour formater le code des fichiers modifiés :
+
+    ```bash 
+    ./vendor/bin/php-cs-fixer fix
+    ```
+9. **Vérifiez le résultat** en lançant le serveur Symfony et en accédant aux différentes pages via la barre de navigation :
+10. ```bash
+    symfony server:start
+    ```
+    - Accédez à l'accueil : [http://localhost:8000/](http://localhost:8000/)
+    - Accédez à la gestion des Articles : [http://localhost:8000/admin/article/](http://localhost:8000/admin/article/)
+    - Accédez à la gestion des Categories : [http://localhost:8000/admin/category/](http://localhost:8000/admin/category/)
+
+**Envoyez-moi le lien vers votre repository github** avec la branche `exe14` finie à `gitweb@cf2m.be` dans `Teams`.
+
+[Retour au menu de la partie 3](README.md)
+ou
