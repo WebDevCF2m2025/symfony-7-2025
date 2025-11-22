@@ -24,7 +24,7 @@ Comme vous pouvez le constater, nous avons déjà créé les entités `Article` 
 Les formulaires se trouvent généralement dans le dossier `src/Form/`.
 
    - Utilisez le type `EntityType` de Symfony pour ce champ.
-   - Configurez-le pour permettre la sélection multiple.
+   - Configurez-le pour permettre la multiple sélection.
    - Assurez-vous que le champ utilise la propriété `categories` de l'entité Article.
    - Ajoutez les options `expanded` => true (checkboxes) et `required` en false pour que le champ soit optionnel.
 
@@ -67,7 +67,7 @@ Vous devriez pouvoir insérer un article avec 0, 1 ou plusieurs catégories asso
 3. **Ouvrez le formulaire CategoryType** situé dans `src/Form/CategoryType.php` et modifiez-le pour inclure un champ permettant de sélectionner plusieurs Articles associés à la Category.
 
    - Utilisez le type `EntityType` de Symfony pour ce champ.
-   - Configurez-le pour permettre la sélection multiple.
+   - Configurez-le pour permettre la multiple sélection.
    - Assurez-vous que le champ utilise la propriété `articles` de l'entité Category.
 
    Exemple de code à ajouter/modifier dans `CategoryType.php` :
