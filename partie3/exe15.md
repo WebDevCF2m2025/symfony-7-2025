@@ -19,152 +19,87 @@ Comme vous pouvez le constater, nous avons déjà créé les entités `Article` 
    ```bash
    git checkout -b exe15
    ```
-2. **Modifiez le chemin vers les CRUD de `Article` et `Category`** pour se trouver dans un dossier `admin` dans l'URL. Celà nous permettra de mieux organiser les routes d'administration.
+2. **Ouvrez le formulaire ArticleType** situé dans `src/Form/ArticleType.php` et modifiez-le pour inclure un champ permettant de sélectionner plusieurs Categories associées à l'Article.
 
-   - Ouvrez le fichier `src/Controller/ArticleController.php` et modifiez la route de la classe pour ajouter le préfixe `/admin` :
+Les formulaires se trouvent généralement dans le dossier `src/Form/`.
 
-   ```php
-   // src/Controller/ArticleController.php
+   - Utilisez le type `EntityType` de Symfony pour ce champ.
+   - Configurez-le pour permettre la sélection multiple.
+   - Assurez-vous que le champ utilise la propriété `categories` de l'entité Article.
+   - Ajoutez les options `expanded` => true (checkboxes) et `required` en false pour que le champ soit optionnel.
 
-   // ...
-   #[Route('/admin/article')]
-   final class ArticleController extends AbstractController
-   {
-       // ...
-   }
-   ```
-
-   - Faites de même pour le fichier `src/Controller/CategoryController.php` :
+   Exemple de code à ajouter/modifier dans `ArticleType.php` :
 
    ```php
-   // src/Controller/CategoryController.php
-
+<?php
+// src/Form/ArticleType.php
+// ...
+   use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+   use App\Entity\Category;
    // ...
-   #[Route('/admin/category')]
-   final class CategoryController extends AbstractController
-   {
-       // ...
-   }
+   $builder
+       // autres champs...
+       ->add('title')
+            ->add('slug')
+            ->add('content')
+            ->add('createAt', null, [
+                'widget' => 'single_text',
+            ])
+            ->add('publishedAt', null, [
+                'widget' => 'single_text',
+            ])
+            ->add('isPublished')
+            ->add('categories',  EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'id',
+                'multiple' => true,
+                # pour avoir des checkbox
+                'expanded' => true,
+                # pour endre le champ optionnel
+                'required' => false,
+            ])
+        ;
+   ;
    ```
-3. **Vérifiez les modifications** en lançant le `debug:router`
 
-4. **Nous allons maintenant créer des liens dans une barre de navigation** pour accéder facilement aux pages de gestion des Articles et des Categories. Les liens dans Twig doivent utiliser les noms de routes définis dans les contrôleurs, en utilisant la fonction `path()` de Twig (par exemple `{{ path('homepage') }}`).
+Vous devriez pouvoir insérer un article avec 0, 1 ou plusieurs catégories associées via le formulaire.
 
-   - Nous allons créer un enfant de `base.html.twig` que nous nommerons `blog_template.html.twig` dans le dossier `templates/` :
+3. **Ouvrez le formulaire CategoryType** situé dans `src/Form/CategoryType.php` et modifiez-le pour inclure un champ permettant de sélectionner plusieurs Articles associés à la Category.
 
-```twig
-{# templates/blog_template.html.twig #}
+   - Utilisez le type `EntityType` de Symfony pour ce champ.
+   - Configurez-le pour permettre la sélection multiple.
+   - Assurez-vous que le champ utilise la propriété `articles` de l'entité Category.
 
-{# on étend base.html.twig #}
-{% extends 'base.html.twig' %}
+   Exemple de code à ajouter/modifier dans `CategoryType.php` :
 
-{# on va modifier le title #}
-{% block title %}Blog |{% endblock %}
-
-{# et réécrire le bloc body pour placer le menu dedans #}
-{% block body %}
-    {% block menu %}
-<nav>
-    <ul>
-        <li><a href="{{ path('homepage') }}">Accueil</a></li>
-        <li><a href="{{ path('app_article_index') }}">Articles</a></li>
-        <li><a href="{{ path('app_category_index') }}">Categories</a></li>
-    </ul>
-</nav>
-    {% endblock %}
-    {% block content %}{% endblock %}
-    {% block footer %}{% endblock %}
-{% endblock %}
+```php
+<?php   
+// src/Form/CategoryType.php
+// ...
+   use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+   use App\Entity\Article;
+   // ...
+   $builder
+       // autres champs...
+       ->add('title')
+            ->add('title')
+            ->add('slug')
+            ->add('description')
+            ->add('articles', EntityType::class, [
+                'class' => Article::class,
+                'choice_label' => 'id',
+                'multiple' => true,
+                # pour avoir des checkbox
+                'expanded' => true,
+                # pour endre le champ optionnel
+                'required' => false,
+            ])
+        ;
+   ;
 ```
+4. **Testez les formulaires** en accédant aux pages de création et d'édition des Articles et des Categories via les routes correspondantes (par exemple, `/admin/article/new` et `/admin/category/new`).
 
-5. **Nous allons modifier le premier fichier qui hérite de `base.html.twig` pour qu'il hérite de `blog_template.html.twig`** à la place et placer son contenu dans le bloc `content` plutôt que le block `body`:
-- `templates/blog/index.html.twig` :
-
-```twig
-{# templates/blog/index.html.twig #}
-{% extends 'blog_template.html.twig' %}
-
-{% block title %}{{ parent() }} Accueil{% endblock %}
-
-{% block content %}
-<div class="content">
-    <h1>Blog | Accueil</h1>
-    <h2>Bienvenue sur notre blog</h2>
-    <p>Ceci sera la page d'accueil de notre blog</p>
-</div>
-{% endblock %}
-```
-
-6. **Pour changer le CSS**, modifiez le fichier `assets\styles\app.css` pour donner un style simple à la barre de navigation et à la classe `content` :
-
-```css
-/* assets/styles/app.css */
-body {
-    background-color: skyblue;
-}
-
-nav {
-    background-color: #096b93;
-    padding: 10px;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-nav ul li {
-    margin-right: 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-.content {
-    margin: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 5px;
-}
-```
-
-7. **Appliquez les modifications de l'extend** dans les autres templates Twig générés pour les CRUD `Article` et `Category`. Par exemple, pour `templates/article/index.html.twig` :
-
-```twig
-{# templates/article/index.html.twig #}
-{% extends 'blog_template.html.twig' %}
-
-{% block title %}{{ parent() }} Accueil de l'Administration d'Article{% endblock %}
-
-{% block content %}
-    <h1>Accueil de l'Administration d'Article</h1>
-    {# le reste du contenu généré par make:crud #}
-{% endblock %}  
-```
-Faites de même pour les autres templates dans `templates/article/` et `templates/category/`.        
-8. **Appliquez php-cs-fixer** pour formater le code des fichiers modifiés :
-
-    ```bash 
-    ./vendor/bin/php-cs-fixer fix
-    ```
-9. **Vérifiez le résultat** en lançant le serveur Symfony et en accédant aux différentes pages via la barre de navigation :
-10. ```bash
-    symfony server:start
-    ```
-    - Accédez à l'accueil : [http://localhost:8000/](http://localhost:8000/)
-    - Accédez à la gestion des Articles : [http://localhost:8000/admin/article/](http://localhost:8000/admin/article/)
-    - Accédez à la gestion des Categories : [http://localhost:8000/admin/category/](http://localhost:8000/admin/category/)
-
-**Envoyez-moi le lien vers votre repository github** avec la branche `exe14` finie à `gitweb@cf2m.be` dans `Teams`.
+   - Celà fonctionne, mais nous obtenons seulement l'id des entités associées dans les formulaires. Nous allons améliorer celà dans l'étape suivante.
 
 [Retour au menu de la partie 3](README.md)
 ou
-[Etape suivante : Faire fonctionner les CRUD de cette relation](exe15.md)
