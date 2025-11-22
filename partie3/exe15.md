@@ -5,17 +5,19 @@
 - [Retour à la partie 3](README.md)
 - [Vue d'ensemble des entités et relations](db11.md)
 
-## Exercice 14 : Modification des liens vers les CRUD
+## Exercice 15 : CRUDs M2M fonctionnels
 
-Nous continuerons le projet commencé dans les exercices précédents: `blog_symfony_{TON PRENOM}`
+Nous continuerons le projet commencé dans les exercices précédents: `blog_symfony_{TON PRENOM}`.
+
+Comme vous pouvez le constater, nous avons déjà créé les entités `Article` et `Category` avec une relation ManyToMany entre elles, ainsi que les CRUDs pour chacune de ces entités. Cependant, les CRUDs générés ne permettent pas encore de gérer correctement cette relation ManyToMany (impossible d'ajouter des Categories à un Article et vice versa). Nous allons donc modifier les formulaires et les templates Twig associés pour rendre cette relation fonctionnelle.
 
 
 ### Étapes à suivre :
 
-1. **Créez une branche git** nommée `exe14` depuis la branche `exe13` (après validation de la branche `exe13`) pour cet exercice. **N'oubliez pas de faire des commits régulièrement après chaque étape importante !**
+1. **Créez une branche git** nommée `exe15` depuis la branche `exe14` (après validation de la branche `exe14`) pour cet exercice. **N'oubliez pas de faire des commits régulièrement après chaque étape importante !**
 
    ```bash
-   git checkout -b exe14
+   git checkout -b exe15
    ```
 2. **Modifiez le chemin vers les CRUD de `Article` et `Category`** pour se trouver dans un dossier `admin` dans l'URL. Celà nous permettra de mieux organiser les routes d'administration.
 
