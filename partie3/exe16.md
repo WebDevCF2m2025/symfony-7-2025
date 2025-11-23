@@ -17,46 +17,119 @@ Nous continuerons le projet commencé dans les exercices précédents: `blog_sym
    git checkout -b exe16
    ```
 
-# PROBLEME ICI
 
-2. **Installer la bibliothèque Slugify** :
-    Nous allons utiliser la bibliothèque `cocur/slugify` pour générer des slugs à partir des titres des articles et des catégories.
-    
-    Exécutez la commande suivante pour installer la bibliothèque via Composer :
-    
-    ```bash
-    composer require cocur/slugify
-    ```
-3. **Modifier les entités Article et Category** :
+2. **Créez un composant Stimulux pour créer le slug** :
 
-    Ouvrez les fichiers `src/Entity/Article.php` et `src/Entity/Category.php` et ajoutez une méthode pour générer le slug à partir du titre avant de persister ou de mettre à jour l'entité.
+    Utilisez la commande `make:stimulus` pour générer un nouveau composant Stimulus nommé `slugify` :
+
+[documentation Stimulus Symfony](https://symfony.com/bundles/StimulusBundle/current/index.html#lazy-stimulus-controllers)
     
-    Exemple pour l'entité Article :
+```bash
+php bin/console make:stimulus-controller slugify  
+```
+   - Choisissez `js` comme langage.
+   - Les autres options par ne sont pas nécessaires, appuyez sur `Entrée` pour les laisser par défaut.
+
+Vous obtindrez un **Success!** à la fin de la commande et la création du fichier suivant :
+
+```bash
+ created: assets/controllers/slugify_controller.js
+```
+
+Vous devriez obtenir un **Success!** à la fin de la commande.
+
+Cela créera ce fichier :
+
+```bash
+ created: assets/controllers/slugify_controller.js
+```
+
+3. **Modifiez le fichier `slugify_controller.js`** pour y ajouter la logique de génération de slug à partir du titre. Voici un exemple de code que vous pouvez utiliser :
+
+```js
+/* assets/controllers/slugify_controller.js */
+import { Controller } from '@hotwired/stimulus';
+
+/* source et cible slug */
+export default class extends Controller {
+    static targets = ['source', 'slug']
     
-    ```php
-    // src/Entity/Article.php
-    // ...
-    use Cocur\Slugify\Slugify;
-    
-    class Article
-    {
-         // ...
-    
-         public function generateSlug(): void
-         {
-              $slugify = new Slugify();
-              $this->slug = $slugify->slugify($this->title);
-         }
-    
-         // ...
+    /* Lors de la connexion du contrôleur, on rend le champ slug en lecture seule et on change son style */
+    connect() {
+        this.slugTarget.style.backgroundColor = '#e9ecef';
+        this.slugTarget.setAttribute('readonly', true);
     }
-    ```
-    
-    Faites de même pour l'entité Category.
-   
+    /* Génère le slug à partir du texte source */
+    generate() {
+        this.slugTarget.value = this.slugify(this.sourceTarget.value)
+    }
+    /* Fonction de slugification */
+    slugify (text) {
+        return text
+            .toString()
+            .toLowerCase()
+            .normalize('NFD')
+            .trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]+/g, '')
+            .replace(/--+/g, '-')
+    }
+}
 
+```
 
+4. **Intégrez le contrôleur Stimulus dans le formulaire d'article** :
 
+   - Ouvrez le fichier `templates/article/_form.html.twig`.
+   - Ajoutez les attributs nécessaires pour connecter le contrôleur Stimulus aux champs `title` et `slug`. Voici un exemple de modification à apporter :
+```twig
+{# templates/article/_form.html.twig #}
+{{ form_start(form) }}
+<div data-controller="slugify">
+    {{ form_row(form.title, {'attr': {'data-slugify-target': 'source', 'data-action': 'keyup->slugify#generate'}}) }}
+    {{ form_row(form.slug, {'attr': {'data-slugify-target': 'slug'}}) }}
+</div>
+{{ form_row(form.content) }}
+{% if form.createAt is defined %}
+    {{ form_row(form.createAt) }}
+{% endif %}
+{{ form_row(form.publishedAt) }}
+{{ form_row(form.isPublished) }}
+{{ form_row(form.categories) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+```
+
+5. **Intégrez le contrôleur Stimulus dans le formulaire de catégorie** :
+
+   - Ouvrez le fichier `templates/category/_form.html.twig`.
+   - Ajoutez les attributs nécessaires pour connecter le contrôleur Stimulus aux champs `title` et `slug`. Voici un exemple de modification à apporter :
+```twig
+{# templates/category/_form.html.twig #}
+{{ form_start(form) }}
+<div data-controller="slugify">
+    {{ form_row(form.title, {'attr': {'data-slugify-target': 'source', 'data-action': 'keyup->slugify#generate'}}) }}
+    {{ form_row(form.slug, {'attr': {'data-slugify-target': 'slug'}}) }}
+</div>
+{{ form_row(form.description) }}
+{{ form_row(form.articles) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+```
+
+6. **Testez le composant Stimulus** :
+
+   - Accédez à la page de création ou d'édition d'un article (par exemple, `/admin/article/new`) et d'une catégorie (par exemple, `/admin/category/new`).
+   - Tapez un titre dans le champ `title` et vérifiez que le champ `slug` se remplit automatiquement avec une version "slugifiée" du titre.
+   - Allez `modifier` un article ou une catégorie existante et vérifiez que le slug se met à jour lorsque vous modifiez le titre!
+
+7. **Testez à nouveau les formulaires** pour vous assurer que tout fonctionne correctement :
+
+8. **Appliquez php-cs-fixer** pour formater le code des fichiers modifiés :
+
+```bash
+./vendor/bin/php-cs-fixer fix
+```
 
 **Envoyez-moi le lien vers votre repository github** avec la branche `exe16` finie à `gitweb@cf2m.be` dans `Teams`.
 
