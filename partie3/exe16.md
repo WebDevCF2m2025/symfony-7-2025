@@ -123,7 +123,20 @@ export default class extends Controller {
    - Tapez un titre dans le champ `title` et vérifiez que le champ `slug` se remplit automatiquement avec une version "slugifiée" du titre.
    - Allez `modifier` un article ou une catégorie existante et vérifiez que le slug se met à jour lorsque vous modifiez le titre!
 
-7. **Testez à nouveau les formulaires** pour vous assurer que tout fonctionne correctement :
+7. **Testez à nouveau les formulaires** pour vous assurer que tout fonctionne correctement
+
+8. **Améliorez vos formulaires** : utilisez les thèmes [Symfony Built-In Form Themes](https://symfony.com/doc/current/form/form_themes.html#symfony-builtin-forms) :
+
+Par exemple, ajoutez le thème `bootstrap_5_layout.html.twig` dans vos formulaires pour un meilleur rendu dans tous les formulaires :
+```yaml
+# config/packages/twig.yaml
+twig:
+    # ...
+    form_themes: ['bootstrap_5_layout.html.twig']
+```
+
+Ce qui donnera un rendu comme ceci :
+![form bootstrap5](https://raw.githubusercontent.com/WebDevCF2m2025/symfony-7-2025/refs/heads/main/exercices/exe17-bootstrap.png)
 
 8. **Appliquez php-cs-fixer** pour formater le code des fichiers modifiés :
 
