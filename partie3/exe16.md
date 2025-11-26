@@ -18,7 +18,7 @@ Nous continuerons le projet commencé dans les exercices précédents: `blog_sym
    ```
 
 
-2. **Créez un composant Stimulux pour créer le slug** :
+2. **Créez un composant Stimulus pour créer le slug** :
 
     Utilisez la commande `make:stimulus` pour générer un nouveau composant Stimulus nommé `slugify` :
 
