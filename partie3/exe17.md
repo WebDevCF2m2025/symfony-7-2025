@@ -43,8 +43,45 @@ import './script/main.js';
 import './styles/app.css';
 import './styles/main.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+console.log('Bravo Mikhawa !');
 ```
+
+5. **'assets/app.js'**
+
+Voici une copie de mon app.js :
+
+```js
+import './stimulus_bootstrap.js';
+import './vendor/bootstrap/js/bootstrap.bundle.min.js';
+//import './vendor/aos/aos.js'; // pose des problèmes
+import './vendor/swiper/swiper-bundle.min.js';
+import './vendor/glightbox/js/glightbox.min.js';
+import './vendor/isotope-layout/isotope.pkgd.min.js';
+import './vendor/waypoints/noframework.waypoints.js';
+import './vendor/purecounter/purecounter_vanilla.js';
+import './vendor/imagesloaded/imagesloaded.pkgd.min.js';
+import './script/main.js';
+
+
+/*
+ * Welcome to your app's main JavaScript file!
+ *
+ * This file will be included onto the page via the importmap() Twig function,
+ * which should already be in your base.html.twig.
+ */
+/*import './styles/app.css';*/
+import './styles/main.css';
+//    puis les dépendances css spécifiques à votre application
+import './vendor/bootstrap/css/bootstrap.min.css';
+import './vendor/bootstrap-icons/bootstrap-icons.css';
+//import './vendor/aos/aos.css'; // problèmes avec aos
+import './vendor/swiper/swiper-bundle.min.css';
+import './vendor/glightbox/css/glightbox.min.css';
+
+console.log('Coucou, ça fonctionne ;-) Mikhawa');
+```
+
+
 
 5. **Modifiez le template de tout le site** pour intégrer les parties HTML du template choisi. Pour le moment les fichiers sont `templates/base.html.twig` et :
 `templates/blog_template.html.twig`, on devrait l'adapter pour y intégrer les parties HTML du template Kelly (`exercices/exercice17/Kelly-1.0.0/index.html`)
@@ -64,8 +101,9 @@ console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="{{ asset('images/favicon.png') }}" rel="icon">
+    <link href="{{ asset('images/apple-touch-icon.png') }}" rel="apple-touch-icon">
     <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
         {% endblock %}
@@ -78,12 +116,13 @@ console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
         {% block body %}{% endblock %}
     </body>
 </html>
+
 ```
 
 7. **Créez le menu dans `templates/inc`** - 
 
 Nommez le `templates/inc/menu.inc.php.twig`
-et effectués ces premiers changements :
+et effectuez ces premiers changements :
 
 ```twig
 {# templates/inc/menu.inc.php.twig #}
@@ -144,8 +183,6 @@ Nommez le `templates/inc/footer.inc.php.twig` et mettez-y provisoirement :
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Preloader -->
-<div id="preloader"></div>
 ```
 
 9. **Créez le template de base pour le site** nommé `templates/blog_template.html.twig`.
