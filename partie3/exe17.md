@@ -262,7 +262,7 @@ Cet exercice est de loin le plus difficile. Utilisez F12 pour voir les soucis ja
 
 Il faut vraiment passer cette étape pour la suite !
 
-**Envoyez-moi le lien vers votre repository github** avec la branche `exe16` finie à `gitweb@cf2m.be` dans `Teams`.
+**Envoyez-moi le lien vers votre repository github** avec la branche `exe17` finie à `gitweb@cf2m.be` dans `Teams`.
 
    
 
