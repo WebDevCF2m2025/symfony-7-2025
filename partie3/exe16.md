@@ -140,9 +140,9 @@ twig:
 Ce qui donnera un rendu comme ceci :
 ![form bootstrap5](https://raw.githubusercontent.com/WebDevCF2m2025/symfony-7-2025/refs/heads/main/exercices/exe17-bootstrap.png)
 
-9. **Attention à la sécurité**, il s'agit de front-end !, il faudrait pour cela sécuriser cette entrée pour éviter les failles `XSS`:
+9. **Attention à la sécurité**, il s'agit de front-end !, il faudrait pour cela sécuriser cette entrée pour éviter les failles `XSS`!
 
-Vous pourriez ajouter un `strip_tags` et `trim` dans les setters `setSlug` des 2 entités, sachez toute fois que par défaut les injections et failles XSS sont gérées par défaut via `Doctrine` (injections) et `twig`(XSS).
+Vous pourriez ajouter un `strip_tags` et `trim` dans les setters `setSlug` des 2 entités, sachez toute fois que par défaut `les injections et failles XSS` sont gérées par défaut via `Doctrine` (injections) et `twig`(XSS).
 
 Exemple :
 
@@ -155,7 +155,40 @@ public function setSlug(string $slug): static
     }
 ```
 
-Il en va de même pour les autres champs, mais `Symfony` faisant le gros du travail (via ValidationListener.php), à vous de voir la nécessité en effectuant des tests !
+Il en va de même pour les autres champs, mais `Symfony` faisant le gros du travail (via `ValidationListener.php` qui valide les champs), à vous de voir la nécessité en effectuant des tests !
+
+Il existe une méthode plus propre [Validation via les assert](https://symfony.com/doc/current/validation.html)
+
+Par exemple pour le nombre minimum de caractères dans le titre d'un article via `Assert` :
+```php
+<?php
+
+// src\Entity\Article.php
+
+namespace App\Entity;
+#...
+use Doctrine\ORM\Mapping as ORM;
+# pour utiliser les validations de Symfony
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+class Article
+{
+    #...
+
+    # 5 caractères minimum et 130 maximum
+    #[ORM\Column(length: 130)]
+    #[Assert\Length(min: 5)]
+    private ?string $title = null;
+    
+    # Et une regex pour le slug:
+    #[ORM\Column(length: 150, unique: true)]
+    #[Assert\Length(min: 5)]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+    private ?string $slug = null;
+#...
+```
+
 
 10. **Appliquez php-cs-fixer** pour formater le code des fichiers modifiés :
 
